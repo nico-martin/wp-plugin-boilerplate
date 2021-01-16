@@ -17,6 +17,11 @@ class TestSettings {
 			'validate' => null,
 		];
 
+    $settings['myStringArea'] = [
+      'default'  => '',
+      'validate' => null,
+    ];
+
 		$settings['mySelectValue'] = [
 			'default'  => '',
 			'validate' => null,

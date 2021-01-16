@@ -17,7 +17,10 @@ const Image = ({
   const [src, setSrc] = React.useState<string>(null);
 
   React.useEffect(() => {
-    fetch(`${VARS.restBase}wp/v2/media/${id}/`).then((resp) => {
+    const controller = new AbortController();
+    fetch(`${VARS.restBase}wp/v2/media/${id}/`, {
+      signal: controller.signal,
+    }).then((resp) => {
       if (resp.status >= 300) {
         alert(`failed to load Image "${id}"`);
       } else {
@@ -26,6 +29,7 @@ const Image = ({
         });
       }
     });
+    return () => controller.abort();
   }, [id]);
 
   return (

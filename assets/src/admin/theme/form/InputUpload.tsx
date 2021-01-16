@@ -90,7 +90,7 @@ const InputUpload = ({
     return (
       <div className={cn(className, 'input-upload')}>
         {images.map((imageId) => (
-          <div className="input-upload__element">
+          <div key={imageId} className="input-upload__element">
             <Image
               className="input-upload__image"
               id={imageId}
