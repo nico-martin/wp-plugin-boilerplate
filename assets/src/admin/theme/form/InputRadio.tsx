@@ -23,7 +23,7 @@ const InputRadio = ({
   const Input = ({ id, className, field, value }: Input) => (
     <div className={cn(className, 'input-radio')}>
       {Object.entries(options).map(([optionValue, optionLabel]) => (
-        <div className="input-radio__element">
+        <div className="input-radio__element" key={optionValue}>
           <input
             type="radio"
             className="input-radio__input"

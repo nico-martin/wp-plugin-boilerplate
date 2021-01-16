@@ -8,6 +8,7 @@ export { default as Image } from './media/Image';
 export { default as Button } from './form/Button';
 export { default as Form } from './form/Form';
 export { default as FormElement } from './form/FormElement';
+export { default as FormControls } from './form/FormControls';
 export { default as InputText } from './form/InputText';
 export { default as InputTextarea } from './form/InputTextarea';
 export { default as InputSelect } from './form/InputSelect';

@@ -24,7 +24,7 @@ const InputSelect = ({
     <select {...field} value={value} id={id} className={cn(className)}>
       {emptyOption && <option value="" {...optionProps('', '')} />}
       {Object.entries(options).map(([value, label]) => (
-        <option value={value} {...optionProps(value, label)}>
+        <option value={value} key={value} {...optionProps(value, label)}>
           {label}
         </option>
       ))}
