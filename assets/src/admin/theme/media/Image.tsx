@@ -16,21 +16,28 @@ const Image = ({
 }) => {
   const [src, setSrc] = React.useState<string>(null);
 
+  const url = React.useMemo(() => `${VARS.restBase}wp/v2/media/${id}/`, [id]);
+
   React.useEffect(() => {
     const controller = new AbortController();
-    fetch(`${VARS.restBase}wp/v2/media/${id}/`, {
+    fetch(url, {
       signal: controller.signal,
-    }).then((resp) => {
-      if (resp.status >= 300) {
-        alert(`failed to load Image "${id}"`);
-      } else {
-        resp.json().then((data) => {
-          setSrc(data.media_details.sizes.thumbnail.source_url);
-        });
-      }
-    });
+    })
+      .then((resp) => {
+        if (resp.status >= 300) {
+          alert(`failed to load URL "${url}"`);
+        } else {
+          return resp.json();
+        }
+      })
+      .then((data) => {
+        setSrc(data.media_details.sizes.thumbnail.source_url);
+      })
+      .catch((e) => {
+        //console.error(e)
+      });
     return () => controller.abort();
-  }, [id]);
+  }, [url]);
 
   return (
     <div

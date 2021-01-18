@@ -1,15 +1,13 @@
 import React from 'react';
-import { Settings, SettingsData } from './types';
+import { Settings } from './types';
 import { VARS } from './constants';
 
 const SettingsContext = React.createContext();
 
 export const SettingsProvider = ({ children }: { children?: any }) => {
-  const [currentSettings, setCurrentSettings] = React.useState<Settings>({
-    error: '',
-    loading: false,
-    data: VARS.settings,
-  });
+  const [currentSettings, setCurrentSettings] = React.useState<Settings>(
+    VARS.settings
+  );
 
   const setSettings = (partialSettings: Partial<Settings>) =>
     setCurrentSettings({
@@ -17,35 +15,41 @@ export const SettingsProvider = ({ children }: { children?: any }) => {
       ...partialSettings,
     });
 
+  const postSettings = (data) =>
+    new Promise((resolve, reject) => {
+      fetch(`${VARS.restPluginBase}settings`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then((resp) => resp.json())
+        .then((resp) => {
+          if (resp.data.status < 300) {
+            resolve(resp);
+          } else {
+            reject(new Error(resp.message));
+          }
+        })
+        .catch(() => {
+          reject(new Error(VARS.generalError));
+        });
+    });
+
   return (
     <SettingsContext.Provider
       value={{
         settings: currentSettings,
-        saveSettings: (newSettings) => {
-          setSettings({ loading: true, error: '' });
-          fetch(`${VARS.restPluginBase}settings`, {
-            method: 'POST',
-            body: JSON.stringify(newSettings),
-            headers: { 'Content-Type': 'application/json' },
-          }).then((resp) => {
-            if (resp.status >= 300) {
-              resp.json().then((response) => {
-                setSettings({
-                  loading: false,
-                  error: response.message,
-                });
-              });
-            } else {
-              resp.json().then((data) => {
-                setSettings({
-                  loading: false,
-                  error: '',
-                  data,
-                });
-              });
-            }
-          });
-        },
+        saveSettings: (newSettings) =>
+          new Promise((resolve, reject) =>
+            postSettings(newSettings)
+              .then((response) => {
+                resolve(response);
+                setSettings(response);
+              })
+              .catch((response) => {
+                reject(response);
+              })
+          ),
       }}
     >
       {children}
@@ -53,9 +57,15 @@ export const SettingsProvider = ({ children }: { children?: any }) => {
   );
 };
 
-export const useSettings = (): [Settings, (settings: SettingsData) => void] => {
-  const { settings = {}, saveSettings = () => {} } = React.useContext(
-    SettingsContext
-  );
+export const useSettings = (): [
+  Settings,
+  (settings: Settings) => Promise<Settings>
+] => {
+  const {
+    settings = {},
+    saveSettings = new Promise((resolve) => {
+      resolve('');
+    }),
+  } = React.useContext(SettingsContext);
   return [settings, saveSettings];
 };

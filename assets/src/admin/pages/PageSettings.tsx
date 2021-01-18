@@ -4,33 +4,47 @@ import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControls,
+  FormFeedback,
   InputCheckbox,
   InputRadio,
   InputSelect,
   InputText,
   InputTextarea,
   InputUpload,
+  NOTICE_TYPES,
 } from '../theme';
 import { useSettings } from '../utils/settings';
 
 const PageSettings = () => {
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [settings, saveSettings] = useSettings();
+  const [error, setError] = React.useState<string>('');
 
   const form = useForm({
     defaultValues: {
-      myString: settings.data.myString,
-      myStringArea: settings.data.myStringArea,
-      mySelectValue: settings.data.mySelectValue,
-      myCheckox: settings.data.myCheckox,
-      myRadio: settings.data.myRadio,
-      myImages: settings.data.myImages,
+      myString: settings.myString,
+      myStringArea: settings.myStringArea,
+      myStringArea3: '',
+      mySelectValue: settings.mySelectValue,
+      myCheckox: settings.myCheckox,
+      myRadio: settings.myRadio,
+      myImages: settings.myImages,
     },
   });
 
   return (
     <Form
       onSubmit={form.handleSubmit((data) => {
-        saveSettings(data);
+        setLoading(true);
+        setError('');
+        saveSettings(data)
+          .then((data) => {
+            setLoading(false);
+          })
+          .catch((data) => {
+            setError(data.toString());
+            setLoading(false);
+          });
       })}
     >
       <InputText
@@ -46,6 +60,7 @@ const PageSettings = () => {
         }}
       />
       <InputTextarea form={form} name="myStringArea" label="Description" />
+      <InputTextarea form={form} name="myStringArea3" label="Description" />
       <InputSelect
         form={form}
         name="mySelectValue"
@@ -84,7 +99,10 @@ const PageSettings = () => {
         label="Image (max. 2)"
         count={2}
       />
-      <FormControls type="submit" disabled={settings.loading} />
+      {error !== '' && (
+        <FormFeedback type={NOTICE_TYPES.ERROR}>{error}</FormFeedback>
+      )}
+      <FormControls type="submit" disabled={loading} />
     </Form>
   );
 };
