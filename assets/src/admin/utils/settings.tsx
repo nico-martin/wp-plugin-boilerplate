@@ -22,16 +22,16 @@ export const SettingsProvider = ({ children }: { children?: any }) => {
         body: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },
       })
-        .then((resp) => resp.json())
-        .then((resp) => {
-          if (resp.data.status < 300) {
-            resolve(resp);
+        .then((resp) => Promise.all([resp, resp.json()]))
+        .then(([resp, data]) => {
+          if (resp.status < 300) {
+            resolve(data);
           } else {
-            reject(new Error(resp.message));
+            reject(new Error(data.message));
           }
         })
-        .catch(() => {
-          reject(new Error(VARS.generalError));
+        .catch((e) => {
+          reject(new Error('<p>' + VARS.generalError + '</p>'));
         });
     });
 

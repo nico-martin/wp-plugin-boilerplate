@@ -3,7 +3,7 @@ import React from 'react';
 import cn from '../../utils/classnames';
 import FormElement, { Input } from './FormElement';
 
-import './InputRadio.css';
+import styles from './InputRadio.css';
 
 const InputRadio = ({
   form,
@@ -23,10 +23,10 @@ const InputRadio = ({
   const Input = ({ id, className, field, value }: Input) => (
     <div className={cn(className, 'input-radio')}>
       {Object.entries(options).map(([optionValue, optionLabel]) => (
-        <div className="input-radio__element" key={optionValue}>
+        <div className={styles.element} key={optionValue}>
           <input
             type="radio"
-            className="input-radio__input"
+            className={styles.input}
             id={`${id}-${optionValue}`}
             name={id}
             value={optionValue}
@@ -34,10 +34,7 @@ const InputRadio = ({
             onChange={(e) => field.onChange(optionValue)}
             {...optionProps(optionValue, optionLabel)}
           />
-          <label
-            className="input-radio__label"
-            htmlFor={`${id}-${optionValue}`}
-          >
+          <label className={styles.label} htmlFor={`${id}-${optionValue}`}>
             {optionLabel}
           </label>
         </div>

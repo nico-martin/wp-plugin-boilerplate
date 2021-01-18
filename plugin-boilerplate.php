@@ -17,7 +17,7 @@ if ( version_compare( $wp_version, '4.7', '<' ) || version_compare( PHP_VERSION,
 	add_action( 'admin_notices', function () {
 		echo '<div class="error"><p>';
 		// translators: Dependency warning
-		echo sprintf( __( '“%1$s” requires PHP %2$s (or newer) and WordPress %3$s (or newer) to function properly. Your site is using PHP %4$s and WordPress %5$s. Please upgrade. The plugin has been automatically deactivated.', 'pwp' ), 'PluginBoilerplate', '5.3', '4.7', PHP_VERSION, $GLOBALS['wp_version'] );
+		echo sprintf( __( '“%1$s” requires PHP %2$s (or newer) and WordPress %3$s (or newer) to function properly. Your site is using PHP %4$s and WordPress %5$s. Please upgrade. The plugin has been automatically deactivated.', 'PREFIX' ), 'PluginBoilerplate', '5.3', '4.7', PHP_VERSION, $GLOBALS['wp_version'] );
 		echo '</p></div>';
 		if ( isset( $_GET['activate'] ) ) {
 			unset( $_GET['activate'] );

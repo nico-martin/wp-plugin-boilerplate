@@ -2,7 +2,7 @@ import React from 'react';
 
 import cn from '../../utils/classnames';
 
-import './Image.css';
+import styles from './Image.css';
 import { VARS } from '../../utils/constants';
 
 const Image = ({
@@ -41,11 +41,11 @@ const Image = ({
 
   return (
     <div
-      className={cn(className, 'image')}
+      className={cn(className, styles.image)}
       style={{ width: size, height: size }}
     >
       {src && (
-        <img className="image__img" src={src} height={size} width={size} />
+        <img className={styles.imageImg} src={src} height={size} width={size} />
       )}
     </div>
   );

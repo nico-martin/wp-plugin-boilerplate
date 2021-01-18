@@ -24,7 +24,12 @@ class TestSettings {
 
 		$settings['mySelectValue'] = [
 			'default'  => '',
-			'validate' => null,
+			'validate' => function($value){
+		  if($value !== 'green'){
+		    return 'muss Green sein';
+      }
+		  return '';
+      },
 		];
 
 		$settings['myCheckox'] = [

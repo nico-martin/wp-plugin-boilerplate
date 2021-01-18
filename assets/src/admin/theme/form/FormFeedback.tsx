@@ -6,15 +6,15 @@ import { Notice, NOTICE_TYPES } from '../index';
 const FormFeedback = ({
   className = '',
   type = Object.values(NOTICE_TYPES)[0],
-  children,
+  message,
 }: {
   className?: string;
   type?: string;
-  children?: any;
+  message: string;
 }) => (
   <tr className={cn(className, 'form-feedback')}>
     <td colSpan={2}>
-      <Notice type={type}>{children}</Notice>
+      <Notice type={type} message={message} />
     </td>
   </tr>
 );

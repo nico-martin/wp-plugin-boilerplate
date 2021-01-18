@@ -5,7 +5,7 @@ import cn from '../../utils/classnames';
 import FormElement, { Input } from './FormElement';
 import { Image } from '../index';
 
-import './InputUpload.css';
+import styles from './InputUpload.css';
 
 const InputUpload = ({
   form,
@@ -88,17 +88,13 @@ const InputUpload = ({
     }, [images]);
 
     return (
-      <div className={cn(className, 'input-upload')}>
+      <div className={cn(className, styles.container)}>
         {images.map((imageId) => (
-          <div key={imageId} className="input-upload__element">
-            <Image
-              className="input-upload__image"
-              id={imageId}
-              size={imageSize}
-            />
+          <div key={imageId} className={styles.element}>
+            <Image className={styles.image} id={imageId} size={imageSize} />
             <button
               type="button"
-              className="input-upload__remove"
+              className={styles.remove}
               onClick={() => setImages(images.filter((i) => i !== imageId))}
             >
               remove
@@ -107,7 +103,7 @@ const InputUpload = ({
         ))}
         {images.length < count && (
           <button
-            className={cn('input-upload__element', 'input-upload__add')}
+            className={cn(styles.element, styles.add)}
             type="button"
             onClick={() => customMediaLibrary.open()}
             style={{ width: imageSize, height: imageSize }}

@@ -24,7 +24,6 @@ const PageSettings = () => {
     defaultValues: {
       myString: settings.myString,
       myStringArea: settings.myStringArea,
-      myStringArea3: '',
       mySelectValue: settings.mySelectValue,
       myCheckox: settings.myCheckox,
       myRadio: settings.myRadio,
@@ -42,11 +41,13 @@ const PageSettings = () => {
             setLoading(false);
           })
           .catch((data) => {
-            setError(data.toString());
+            setError(data.message);
             setLoading(false);
           });
       })}
     >
+      <FormFeedback message="<p>Hallo Welt</p>" />
+
       <InputText
         form={form}
         name="myString"
@@ -60,7 +61,6 @@ const PageSettings = () => {
         }}
       />
       <InputTextarea form={form} name="myStringArea" label="Description" />
-      <InputTextarea form={form} name="myStringArea3" label="Description" />
       <InputSelect
         form={form}
         name="mySelectValue"
@@ -100,7 +100,7 @@ const PageSettings = () => {
         count={2}
       />
       {error !== '' && (
-        <FormFeedback type={NOTICE_TYPES.ERROR}>{error}</FormFeedback>
+        <FormFeedback type={NOTICE_TYPES.ERROR} message={error} />
       )}
       <FormControls type="submit" disabled={loading} />
     </Form>

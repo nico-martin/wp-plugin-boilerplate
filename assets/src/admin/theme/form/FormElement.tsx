@@ -1,8 +1,9 @@
 import React from 'react';
 
-import './FormElement.css';
 import { useController } from 'react-hook-form';
 import { ControllerRenderProps } from 'react-hook-form/dist/types/props';
+
+import styles from './FormElement.css';
 
 export interface Input {
   field: ControllerRenderProps<{}>;
@@ -37,17 +38,12 @@ const FormElement = ({
   );
 
   return (
-    <tr className="form-element">
+    <tr className={styles.container}>
       <th scope="row">
         <label htmlFor={name}>{label}</label>
       </th>
       <td>
-        <Input
-          field={field}
-          value={value}
-          id={name}
-          className="form-element__input"
-        />
+        <Input field={field} value={value} id={name} className={styles.input} />
         {error && <p>{error.message}</p>}
       </td>
     </tr>
