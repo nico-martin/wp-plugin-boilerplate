@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControls,
+  FormElement,
   FormFeedback,
   InputCheckbox,
   InputRadio,
@@ -31,6 +32,9 @@ const PageSettings = () => {
     defaultValues: settings,
   });
 
+  const values = form.watch();
+  console.log('values', values);
+
   return (
     <Form
       onSubmit={form.handleSubmit((data) => {
@@ -46,7 +50,7 @@ const PageSettings = () => {
           });
       })}
     >
-      <InputText
+      <FormElement
         form={form}
         name="myString"
         label="My Email"
@@ -57,12 +61,19 @@ const PageSettings = () => {
             message: 'This needs to be a valid Email adress',
           },
         }}
+        Input={InputText}
       />
-      <InputTextarea form={form} name="myStringArea" label="Description" />
-      <InputSelect
+      <FormElement
+        form={form}
+        name="myStringArea"
+        label="Description"
+        Input={InputTextarea}
+      />
+      <FormElement
         form={form}
         name="mySelectValue"
         label="Color"
+        Input={InputSelect}
         optionProps={(color) => ({ style: { color } })}
         options={{
           green: 'Green',
@@ -70,32 +81,32 @@ const PageSettings = () => {
           blue: 'Blue',
         }}
       />
-      <InputCheckbox
+      <FormElement
         form={form}
         name="myCheckox"
         label="Check this"
-        rules={{
-          required: 'This value is required',
-        }}
+        Input={InputCheckbox}
       />
-      <InputRadio
+      <FormElement
         form={form}
         name="myRadio"
         label="Radio Box"
+        rules={{
+          required: 'This value is required',
+        }}
+        Input={InputRadio}
         options={{
           hallo: 'Welt',
           foo: 'Foo',
           bar: 'Bar',
         }}
-        rules={{
-          required: 'This value is required',
-        }}
       />
-      <InputUpload
+      <FormElement
         form={form}
         name="myImages"
         label="Image (max. 2)"
-        count={2}
+        Input={InputUpload}
+        count={4}
       />
       {error !== '' && (
         <FormFeedback type={NOTICE_TYPES.ERROR} message={error} />

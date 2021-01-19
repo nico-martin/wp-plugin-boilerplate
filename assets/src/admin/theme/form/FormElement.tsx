@@ -1,33 +1,30 @@
 import React from 'react';
 
-import { useController } from 'react-hook-form';
-import { ControllerRenderProps } from 'react-hook-form/dist/types/props';
+import cn from '../../utils/classnames';
 
 import styles from './FormElement.css';
-
-export interface Input {
-  field: ControllerRenderProps<{}>;
-  value: string | boolean;
-  id: string;
-  className?: string;
-}
+import { useController } from 'react-hook-form';
 
 const FormElement = ({
   form,
-  Input,
   label,
   name,
   rules = {},
+  Input,
+  className = '',
+  inputClassName = '',
+  ...inputProps
 }: {
-  form: any;
-  Input: any;
-  label: string;
+  form?: any;
+  label?: string;
   name: string;
-  rules?: {};
+  rules?: any;
+  Input?: any;
+  className?: string;
+  inputClassName?: string;
+  [key: string]: any;
 }) => {
-  const {
-    field: { value = '', ...field },
-  } = useController({
+  const { field } = useController({
     control: form.control,
     name,
     rules,
@@ -38,12 +35,17 @@ const FormElement = ({
   );
 
   return (
-    <tr className={styles.container}>
+    <tr className={cn(styles.container, className)}>
       <th scope="row">
         <label htmlFor={name}>{label}</label>
       </th>
       <td>
-        <Input field={field} value={value} id={name} className={styles.input} />
+        <Input
+          name={name}
+          className={cn(styles.input, inputClassName)}
+          {...field}
+          {...inputProps}
+        />
         {error && <p>{error.message}</p>}
       </td>
     </tr>
