@@ -28,10 +28,49 @@
       content: "\f142";
     }
 
-.Notice__notice___2GQrp ul {
+.Notice__notice___2GQrp {
+  background: #fff;
+  border: 1px solid #ccd0d4;
+  border-left-width: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+  padding: 12px 15px;
+}
+
+  .Notice__notice___2GQrp > * {
+    margin: 0 !important;
+  }
+
+  .Notice__notice___2GQrp > * + * {
+      margin-top: 0.5em !important;
+    }
+
+  .Notice__notice___2GQrp ul {
     list-style: initial;
     padding-left: 20px;
   }
+
+  .Notice__notice___2GQrp p {
+    margin-top: 0;
+  }
+
+.Notice__noticeInfo___2Fyu2 {
+  border-left-color: #00a0d2;
+
+}
+
+.Notice__noticeWarning___OTbFg {
+  border-left-color: #ffb900;
+
+}
+
+.Notice__noticeError___18l8q {
+  border-left-color: #dc3232;
+
+}
+
+.Notice__noticeSuccess___1lTlK {
+  border-left-color: #46b450;
+}
 
 
 .TabNavigation__navigation___2BNr1 {
@@ -92,6 +131,10 @@
 }
 
 .FormElement__container___TbJPB {
+}
+
+.FormFeedback__td___2_j1N {
+  padding: 20px 0 !important;
 }
 
 .InputRadio__element___1WCGL + .InputRadio__element___1WCGL {

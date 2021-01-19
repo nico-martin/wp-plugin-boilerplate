@@ -46,8 +46,6 @@ const PageSettings = () => {
           });
       })}
     >
-      <FormFeedback message="<p>Hallo Welt</p>" />
-
       <InputText
         form={form}
         name="myString"

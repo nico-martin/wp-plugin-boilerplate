@@ -30,7 +30,7 @@ export const SettingsProvider = ({ children }: { children?: any }) => {
             reject(new Error(data.message));
           }
         })
-        .catch((e) => {
+        .catch(() => {
           reject(new Error('<p>' + VARS.generalError + '</p>'));
         });
     });

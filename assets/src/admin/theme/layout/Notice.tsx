@@ -14,19 +14,24 @@ export const NOTICE_TYPES = {
 const Notice = ({
   className = '',
   type = Object.values(NOTICE_TYPES)[0],
-  alt = false,
   message,
+  children,
 }: {
   className?: string;
   type?: string;
-  alt?: boolean;
-  message: string;
+  message?: string;
+  children?: any;
 }) => (
   <div
-    className={cn(className, 'notice', `notice-${type}`, styles.notice, {
-      'notice-alt': alt,
+    className={cn(className, styles[`notice-${type}`], styles.notice, {
+      [styles.noticeInfo]: type === NOTICE_TYPES.INFO,
+      [styles.noticeWarning]: type === NOTICE_TYPES.WARNING,
+      [styles.noticeError]: type === NOTICE_TYPES.ERROR,
+      [styles.noticeSuccess]: type === NOTICE_TYPES.SUCCESS,
     })}
-    dangerouslySetInnerHTML={{ __html: message }}
+    {...(message
+      ? { dangerouslySetInnerHTML: { __html: message } }
+      : { children })}
   />
 );
 

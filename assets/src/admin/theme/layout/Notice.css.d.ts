@@ -3,6 +3,10 @@
 declare namespace NoticeCssNamespace {
   export interface INoticeCss {
     notice: string;
+    noticeError: string;
+    noticeInfo: string;
+    noticeSuccess: string;
+    noticeWarning: string;
   }
 }
 
