@@ -17,18 +17,18 @@ import { useSettings } from '../utils/settings';
 
 const PageSettings = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [settings, saveSettings] = useSettings();
+  const [settings, saveSettings] = useSettings([
+    'myString',
+    'myStringArea',
+    'mySelectValue',
+    'myCheckox',
+    'myRadio',
+    'myImages',
+  ]);
   const [error, setError] = React.useState<string>('');
 
   const form = useForm({
-    defaultValues: {
-      myString: settings.myString,
-      myStringArea: settings.myStringArea,
-      mySelectValue: settings.mySelectValue,
-      myCheckox: settings.myCheckox,
-      myRadio: settings.myRadio,
-      myImages: settings.myImages,
-    },
+    defaultValues: settings,
   });
 
   return (

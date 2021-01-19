@@ -57,15 +57,28 @@ export const SettingsProvider = ({ children }: { children?: any }) => {
   );
 };
 
-export const useSettings = (): [
-  Settings,
-  (settings: Settings) => Promise<Settings>
-] => {
+const filterObject = (object: Object, keys: string[] = []) => {
+  if (keys.length === 0) {
+    return object;
+  }
+
+  const values = {};
+  keys.map((key) => {
+    if (key in object) {
+      values[key] = object[key];
+    }
+  });
+  return values;
+};
+
+export const useSettings = (
+  keys: string[] = []
+): [Settings, (settings: Settings) => Promise<Settings>] => {
   const {
     settings = {},
     saveSettings = new Promise((resolve) => {
       resolve('');
     }),
   } = React.useContext(SettingsContext);
-  return [settings, saveSettings];
+  return [filterObject(settings, keys), saveSettings];
 };
