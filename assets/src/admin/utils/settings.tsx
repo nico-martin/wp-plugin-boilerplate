@@ -1,84 +1,97 @@
 import React from 'react';
-import { Settings } from './types';
+
+import createStore, { Store } from 'unistore';
+import { connect } from 'unistore/react';
+
 import { VARS } from './constants';
+import { Settings } from './types';
+import { compareObjects, filterObject } from './utils';
+import { useForm } from 'react-hook-form';
 
-const SettingsContext = React.createContext();
+interface StoreState {
+  settings: Settings;
+  savedSettings: Settings;
+}
 
-export const SettingsProvider = ({ children }: { children?: any }) => {
-  const [currentSettings, setCurrentSettings] = React.useState<Settings>(
-    VARS.settings
-  );
+const initialState: {} = {
+  settings: VARS.settings,
+  savedSettings: VARS.settings,
+};
 
-  const setSettings = (partialSettings: Partial<Settings>) =>
-    setCurrentSettings({
-      ...currentSettings,
-      ...partialSettings,
-    });
-
-  const postSettings = (data) =>
-    new Promise((resolve, reject) => {
-      fetch(`${VARS.restPluginBase}settings`, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' },
+const postSettings = (data) =>
+  new Promise((resolve, reject) => {
+    fetch(`${VARS.restPluginBase}settings`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((resp) => Promise.all([resp, resp.json()]))
+      .then(([resp, data]) => {
+        if (resp.status < 300) {
+          resolve(data);
+        } else {
+          reject(new Error(data.message));
+        }
       })
-        .then((resp) => Promise.all([resp, resp.json()]))
-        .then(([resp, data]) => {
-          if (resp.status < 300) {
-            resolve(data);
-          } else {
-            reject(new Error(data.message));
-          }
-        })
-        .catch(() => {
-          reject(new Error('<p>' + VARS.generalError + '</p>'));
-        });
-    });
-
-  return (
-    <SettingsContext.Provider
-      value={{
-        settings: currentSettings,
-        saveSettings: (newSettings) =>
-          new Promise((resolve, reject) =>
-            postSettings(newSettings)
-              .then((response) => {
-                resolve(response);
-                setSettings(response);
-              })
-              .catch((response) => {
-                reject(response);
-              })
-          ),
-      }}
-    >
-      {children}
-    </SettingsContext.Provider>
-  );
-};
-
-const filterObject = (object: Object, keys: string[] = []) => {
-  if (keys.length === 0) {
-    return object;
-  }
-
-  const values = {};
-  keys.map((key) => {
-    if (key in object) {
-      values[key] = object[key];
-    }
+      .catch(() => {
+        reject(new Error('<p>' + VARS.generalError + '</p>'));
+      });
   });
-  return values;
-};
 
-export const useSettings = (
-  keys: string[] = []
-): [Settings, (settings: Settings) => Promise<Settings>] => {
-  const {
-    settings = {},
-    saveSettings = new Promise((resolve) => {
-      resolve('');
-    }),
-  } = React.useContext(SettingsContext);
-  return [filterObject(settings, keys), saveSettings];
-};
+const settingsStoreActions = (store: Store<StoreState>) => ({
+  setSettings: (state, newSetting: Settings) => ({
+    settings: {
+      ...state.settings,
+      ...newSetting,
+    },
+  }),
+  syncSettings: (state) =>
+    new Promise((resolve, reject) =>
+      postSettings(state.settings)
+        .then((response) => {
+          resolve(response);
+          store.setState({ savedSettings: state.settings });
+        })
+        .catch((response) => {
+          reject(response);
+        })
+    ),
+});
+
+export const withSettingsForm = (keys = []) => (Component) =>
+  connect(
+    ['savedSettings', 'settings'],
+    settingsStoreActions
+  )(
+    ({
+      savedSettings,
+      settings,
+      syncSettings,
+      setSettings,
+      ...props
+    }: {
+      savedSettings: Settings;
+      settings: Settings;
+      syncSettings: () => Promise<Settings>;
+      setSettings: Function;
+      [key: string]: any;
+    }) => {
+      const initialSettings = React.useMemo(
+        () => filterObject(settings, keys),
+        [settings, settings]
+      );
+
+      const form = useForm({
+        defaultValues: initialSettings,
+      });
+
+      const values = form.watch(Object.keys(initialSettings));
+      React.useEffect(() => {
+        !compareObjects(settings, values) && setSettings(values);
+      }, [values]);
+
+      return <Component form={form} saveSettings={syncSettings} {...props} />;
+    }
+  );
+
+export const settingsStore = createStore(initialState);

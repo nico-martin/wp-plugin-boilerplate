@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Route, useLocation } from './utils/location';
-import { SettingsProvider } from './utils/settings';
+import { settingsStore } from './utils/settings';
+import { Provider } from 'unistore/react';
 import { __ } from './utils/i18n';
 import { Page, TabNavigation } from './theme';
 import PageAbout from './pages/PageAbout';
@@ -25,7 +26,7 @@ const App = () => {
         <PageAbout />
       </Route>
       <Route page="settings">
-        <PageSettings />
+        <PageSettings className="test" />
       </Route>
     </Page>
   );
@@ -33,9 +34,9 @@ const App = () => {
 
 if (app) {
   ReactDOM.render(
-    <SettingsProvider>
+    <Provider store={settingsStore}>
       <App />
-    </SettingsProvider>,
+    </Provider>,
     app
   );
 }

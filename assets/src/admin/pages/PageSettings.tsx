@@ -1,5 +1,4 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
 
 import {
   Form,
@@ -14,33 +13,25 @@ import {
   InputUpload,
   NOTICE_TYPES,
 } from '../theme';
-import { useSettings } from '../utils/settings';
+import { Settings } from '../utils/types';
+import { withSettingsForm } from '../utils/settings';
 
-const PageSettings = () => {
+const PageSettings = ({
+  form,
+  saveSettings,
+}: {
+  form: any;
+  saveSettings: () => Promise<Settings>;
+}) => {
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [settings, saveSettings] = useSettings([
-    'myString',
-    'myStringArea',
-    'mySelectValue',
-    'myCheckox',
-    'myRadio',
-    'myImages',
-  ]);
   const [error, setError] = React.useState<string>('');
-
-  const form = useForm({
-    defaultValues: settings,
-  });
-
-  const values = form.watch();
-  console.log('values', values);
 
   return (
     <Form
       onSubmit={form.handleSubmit((data) => {
         setLoading(true);
         setError('');
-        saveSettings(data)
+        saveSettings()
           .then((data) => {
             setLoading(false);
           })
@@ -116,4 +107,11 @@ const PageSettings = () => {
   );
 };
 
-export default PageSettings;
+export default withSettingsForm([
+  'myString',
+  'myStringArea',
+  'mySelectValue',
+  'myCheckox',
+  'myRadio',
+  'myImages',
+])(PageSettings);
