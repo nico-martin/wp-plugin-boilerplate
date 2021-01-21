@@ -1,19 +1,20 @@
 # Plugin Boilerplate
 
-This is a WordPress Plugin Boilerplate that focuses on a easy to use admin interface for settings.
+This is a WordPress Plugin Boilerplate that focuses on an easy to use admin interface for settings built with React and
+TypeScript.
 
 ## Ok cool.. But why?
 
-Because WordPress ist great, being able to make it even better by creating plugins is great, but let's be honest. **
-Creating admin screens sucks!**
+Because WordPress ist great, being able to make it even better by creating plugins is great, but let's be honest. 
+**Creating admin screens sucks!**
 
-So I fixed it. You're welcome.
+So I fixed it. You're welcome 🙏.
 
 **Is it over engineered?**  
-Yes, totally!
+✔️Yes, totally!
 
 **Do I care?**  
-No
+❌ No
 
 ## Demo
 
@@ -21,6 +22,25 @@ No
 
 There is also a short Demo on YouTube:  
 https://youtu.be/rsOc4fRvfB8
+
+## Getting started
+
+### Composer
+
+Nope, no php dependencies 🤷
+
+### NPM
+
+The admin frontend is based on React and Typescript.  
+To install all dependencies you can use `npm install`. This will take a couple of minutes.
+
+You can then start the build with one command.
+
+```
+npm run build
+```
+
+This will compile TypeScript and tsx, bundle it with Webpack and watches for changes.
 
 ## How to register a setting
 

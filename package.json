@@ -1,17 +1,15 @@
 {
-  "name": "progressive-wordpress",
-  "version": "2.2.0",
-  "description": "This WordPress plugin adds progressive web app features to your WordPress site",
-  "main": "gulpfile.babel.js",
+  "name": "wp-plugin-boilerplate",
+  "version": "1.0.0",
+  "description": "A Plugin Boilerplate by Nico Martin",
   "scripts": {
     "dev": "webpack -d --watch"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/SayHelloGmbH/progressive-wordpress.git"
+    "url": "git+ssh://git@github.com/nico-martin/wp-plugin-boilerplate.git"
   },
   "dependencies": {
-    "clientjs": "^0.1.11",
     "react-hook-form": "^6.14.1",
     "unistore": "^3.5.2",
     "unistore-hooks": "^0.1.1"
@@ -47,9 +45,9 @@
   "author": "Nico Martin",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/SayHelloGmbH/progressive-wordpress/issues"
+    "url": "https://github.com/nico-martin/wp-plugin-boilerplate/issues"
   },
-  "homepage": "https://github.com/SayHelloGmbH/progressive-wordpress#README",
+  "homepage": "https://github.com/nico-martin/wp-plugin-boilerplate#README",
   "babel": {
     "presets": [
       "@babel/preset-env"
