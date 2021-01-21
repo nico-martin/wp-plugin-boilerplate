@@ -47,6 +47,11 @@ class TestSettings {
 			'validate' => null,
 		];
 
+    $settings['myEmail'] = [
+      'default'  => 'test@nico.dev',
+      'validate' => null,
+    ];
+
 		return $settings;
 	}
 }

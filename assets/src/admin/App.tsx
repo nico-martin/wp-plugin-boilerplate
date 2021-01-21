@@ -1,15 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Route, useLocation } from './utils/location';
-import { settingsStore } from './utils/settings';
-import { Provider } from 'unistore/react';
+import { Route, useLocation } from './utils/router';
+import { SettingsProvider, useSettingsDiff } from './settings';
+
 import { __ } from './utils/i18n';
 import { Page, TabNavigation } from './theme';
 import PageAbout from './pages/PageAbout';
 import PageSettings from './pages/PageSettings';
+import PageSettingsPersonal from './pages/PageSettingsPersonal';
 
 const app = document.querySelector('#PREFIX-app');
+
+const settingsKeys = [
+  'myString',
+  'myStringArea',
+  'mySelectValue',
+  'myCheckox',
+  'myRadio',
+  'myImages',
+];
+const settingsPersonalKeys = ['myEmail'];
 
 const App = () => {
   const location = useLocation();
@@ -19,14 +30,20 @@ const App = () => {
       <TabNavigation
         links={{
           '': 'About',
-          settings: 'Settings',
+          settings: useSettingsDiff(settingsKeys) ? 'Settings*' : 'Settings',
+          'settings-personal': useSettingsDiff(settingsPersonalKeys)
+            ? 'Settings Personal*'
+            : 'Settings Personal',
         }}
       />
       <Route page="">
         <PageAbout />
       </Route>
       <Route page="settings">
-        <PageSettings className="test" />
+        <PageSettings settingsKeys={settingsKeys} />
+      </Route>
+      <Route page="settings-personal">
+        <PageSettingsPersonal settingsKeys={settingsPersonalKeys} />
       </Route>
     </Page>
   );
@@ -34,9 +51,9 @@ const App = () => {
 
 if (app) {
   ReactDOM.render(
-    <Provider store={settingsStore}>
+    <SettingsProvider>
       <App />
-    </Provider>,
+    </SettingsProvider>,
     app
   );
 }

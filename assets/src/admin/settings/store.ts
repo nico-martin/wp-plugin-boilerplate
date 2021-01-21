@@ -1,12 +1,8 @@
-import React from 'react';
-
 import createStore, { Store } from 'unistore';
-import { connect } from 'unistore/react';
 
-import { VARS } from './constants';
-import { Settings } from './types';
-import { compareObjects, filterObject } from './objects';
-import { useForm } from 'react-hook-form';
+import { Settings } from '../utils/types';
+import { VARS } from '../utils/constants';
+import { filterObject } from '../utils/objects';
 
 interface StoreState {
   settings: Settings;
@@ -38,22 +34,24 @@ const postSettings = (data) =>
       });
   });
 
-const settingsStoreActions = (store: Store<StoreState>) => ({
+export const settingsStoreActions = (store: Store<StoreState>) => ({
   setSettings: (state, newSetting: Settings) => ({
     settings: {
       ...state.settings,
       ...newSetting,
     },
   }),
-  syncSettings: (state) =>
+  syncSettings: (state, keys: string[] = []) =>
     new Promise((resolve, reject) =>
-      postSettings(state.settings)
+      postSettings(filterObject(state.settings, keys))
         .then((response) => {
           resolve(response);
-          store.setState({ savedSettings: state.settings });
+          store.setState({ savedSettings: response });
         })
         .catch((response) => {
           reject(response);
         })
     ),
 });
+
+export const settingsStore = createStore(initialState);

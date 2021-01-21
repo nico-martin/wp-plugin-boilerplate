@@ -37,7 +37,10 @@ const FormElement = ({
   return (
     <tr className={cn(styles.container, className)}>
       <th scope="row">
-        <label htmlFor={name}>{label}</label>
+        <label htmlFor={name}>
+          {label}
+          {'required' in rules && '*'}
+        </label>
       </th>
       <td>
         <Input
@@ -46,7 +49,7 @@ const FormElement = ({
           {...field}
           {...inputProps}
         />
-        {error && <p>{error.message}</p>}
+        {error && <p className={styles.error}>{error.message}</p>}
       </td>
     </tr>
   );

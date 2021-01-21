@@ -13,44 +13,19 @@ import {
   InputUpload,
   NOTICE_TYPES,
 } from '../theme';
-import { Settings } from '../utils/types';
-import { withSettingsForm } from '../utils/settings';
+import { useSettingsForm } from '../settings';
 
-const PageSettings = ({
-  form,
-  saveSettings,
-}: {
-  form: any;
-  saveSettings: () => Promise<Settings>;
-}) => {
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [error, setError] = React.useState<string>('');
+const PageSettings = ({ settingsKeys }: { settingsKeys: string[] }) => {
+  const { form, submit, error, loading } = useSettingsForm(settingsKeys);
 
   return (
-    <Form
-      onSubmit={form.handleSubmit((data) => {
-        setLoading(true);
-        setError('');
-        saveSettings()
-          .then((data) => {
-            setLoading(false);
-          })
-          .catch((data) => {
-            setError(data.message);
-            setLoading(false);
-          });
-      })}
-    >
+    <Form onSubmit={submit}>
       <FormElement
         form={form}
         name="myString"
-        label="My Email"
+        label="My String"
         rules={{
           required: 'This value is required',
-          pattern: {
-            value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            message: 'This needs to be a valid Email adress',
-          },
         }}
         Input={InputText}
       />
@@ -107,11 +82,4 @@ const PageSettings = ({
   );
 };
 
-export default withSettingsForm([
-  'myString',
-  'myStringArea',
-  'mySelectValue',
-  'myCheckox',
-  'myRadio',
-  'myImages',
-])(PageSettings);
+export default PageSettings;

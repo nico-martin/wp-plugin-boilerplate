@@ -133,9 +133,15 @@
 .FormElement__container___TbJPB {
 }
 
+.FormElement__error___26oJ3 {
+  color: #dc3232;
+  font-size: 0.8em !important;
+}
+
 .FormFeedback__td___2_j1N {
   padding: 20px 0 !important;
 }
+
 
 .InputRadio__element___1WCGL + .InputRadio__element___1WCGL {
   margin-top: 0.3em;

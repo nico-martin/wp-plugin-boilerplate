@@ -1,7 +1,7 @@
 import React from 'react';
 
 import cn from '../../utils/classnames';
-import { Link, useLocation } from '../../utils/location';
+import { Link, useLocation } from '../../utils/router';
 
 import styles from './TabNavigation.css';
 

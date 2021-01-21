@@ -4,3 +4,8 @@
 
 .container {
 }
+
+.error {
+  color: #dc3232;
+  font-size: 0.8em !important;
+}

@@ -40,6 +40,8 @@ const PageAbout = ({ className = '' }: { className?: string }) => (
         rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
         ipsum dolor sit amet.
       </p>
+    </Card>
+    <Card title="Lorem ipsum dolor">
       <p>
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
         eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
