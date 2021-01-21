@@ -37,7 +37,7 @@ To install all dependencies you can use `npm install`. This will take a couple o
 You can then start the build with one command.
 
 ```
-npm run build
+npm run dev
 ```
 
 This will compile TypeScript and tsx, bundle it with Webpack and watches for changes.
