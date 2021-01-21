@@ -15,6 +15,13 @@ Yes, totally!
 **Do I care?**  
 No
 
+## Demo
+
+![WP Plugin Boilerplate](https://uploads.nico.dev/wp-plugin-boilerplate.png)
+
+There is also a short Demo on YouTube:  
+https://youtu.be/rsOc4fRvfB8
+
 ## How to register a setting
 
 To register a setting you need to add it to you `PREFIX_register_settings` filter:
@@ -53,11 +60,15 @@ react-hooks-form, connected to the settings we registered in our PHP.
 
 ### Router
 
+https://github.com/nico-martin/wp-plugin-boilerplate/blob/main/assets/src/admin/utils/router.tsx
+
 It comes with a very simple URL-hash-based "router".  
 You can use `useLocation` as a hook that returns the current hash, a `Link` component that will update the hash and
 a `Route` component that will only render it's child component if the current hash matches the given `page` property.
 
 ### Translated Strings
+
+https://github.com/nico-martin/wp-plugin-boilerplate/blob/main/assets/src/admin/utils/i18n.tsx
 
 If you need dynamic strings you can register them in PHP using the `PREFIX_translation_strings` filter.
 
@@ -81,6 +92,8 @@ console.log(myString); // logs "Welcome to My Plugin"
 ```
 
 ### Settings
+
+https://github.com/nico-martin/wp-plugin-boilerplate/blob/main/assets/src/admin/utils/settings.tsx
 
 The biggest part of the boilerplate is the settings module. It has basicly two tasks.
 
