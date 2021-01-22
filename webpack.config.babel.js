@@ -83,11 +83,9 @@ module.exports = (env, argv) => {
       alias: {},
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
-    externals: dev
-      ? {}
-      : {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-        },
+    externals: {
+      react: 'React',
+      'react-dom': 'ReactDOM',
+    },
   };
 };
